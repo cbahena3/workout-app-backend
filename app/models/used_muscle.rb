@@ -1,0 +1,2 @@
+class UsedMuscle < ApplicationRecord
+end
