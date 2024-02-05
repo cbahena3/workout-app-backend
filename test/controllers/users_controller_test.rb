@@ -1,6 +1,15 @@
 require "test_helper"
 
 class UsersControllerTest < ActionDispatch::IntegrationTest
+  setup do
+    @user = User.create(email: 'test@example.com', password: 'password')
+
+    post "/sessions", params: { email: @user.email, password: "password" }
+    assert_response :created
+
+    @token = JSON.parse(response.body)["jwt"]
+  end
+
   test "index" do
     get "/users.json"
     assert_response 200
@@ -26,7 +35,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
   test "update" do
     user = User.first
-    patch "/users/#{user.id}.json", params: { name: "Updated name" }
+    patch "/users/#{user.id}.json", params: { name: "Updated name" }, headers: { Authorization: "Bearer #{@token}" }
     assert_response 200
 
     data = JSON.parse(response.body)
@@ -35,10 +44,10 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
   test "destroy" do
     assert_difference "User.count", -1 do
-      delete "/users/#{User.first.id}.json"
+      delete "/users/#{@user.id}.json", headers: { Authorization: "Bearer #{@token}" }
       assert_response 200
     end
   end
 end
 
-#Create users test is failing because password/passwordconfirmation dont get sent as params for some reason, all other test pass.
+#Create and update users test is failing because password/passwordconfirmation dont get sent as params for some reason and nil for name on update.
