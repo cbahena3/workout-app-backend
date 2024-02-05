@@ -2,7 +2,7 @@ class RoutinesController < ApplicationController
   before_action :authenticate_user, except: [:index, :show]
 
   def index
-    @routines = Routine.all
+    @routines = Routine.includes(:exercise_routines).all
     render :index
   end
 

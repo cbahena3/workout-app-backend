@@ -50,6 +50,3 @@ class ExercisesController < ApplicationController
     # end
   end
 end
-
-
-#CREATE ACTION WILL NOT WORK (because of belongs_to :routines relationship)
