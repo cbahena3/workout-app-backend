@@ -34,6 +34,13 @@ Rails.application.routes.draw do
   patch "muscle_groups/:id" => "muscle_groups#update"
   delete "muscle_groups/:id" => "muscle_groups#destroy"
 
+  #exercise_routines routes
+  get "/exercise_routines" => "exercise_routines#index"
+  get "/exercise_routines/:id" => "exercise_routines#show"
+  post "/exercise_routines" => "exercise_routines#create"
+  patch "exercise_routines/:id" => "exercise_routines#update"
+  delete "exercise_routines/:id" => "exercise_routines#destroy"
+
   #sessions routes
   post "/sessions" => "sessions#create"
 end

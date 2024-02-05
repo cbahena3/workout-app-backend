@@ -14,9 +14,7 @@ class RoutinesController < ApplicationController
   def create
     @routine = Routine.create(
       user_id: current_user.id,
-      exercise_id: params[:exercise_id],
-      sets: params[:sets],
-      reps: params[:reps]
+      name: params[:name]
     )
     if @routine.valid?
       render :show
@@ -29,9 +27,7 @@ class RoutinesController < ApplicationController
     @routine = Routine.find_by(id: params[:id])
     if current_user.id == @routine.user_id
       @routine.update(
-      exercise_id: params[:exercise_id]|| @routine.exercise_id,
-      sets: params[:sets] || @routine.sets,
-      reps: params[:reps] || @routine.reps
+        name: params[:name]|| @routine.name
     )
       render :show
     else
@@ -43,7 +39,7 @@ class RoutinesController < ApplicationController
     @routine = Routine.find_by(id: params[:id])
     if current_user.id == @routine.user_id
       @routine.destroy
-      render json:{message: "Exercise removed from routine succesfully"}
+      render json:{message: "Routine deleted succesfully"}
     else
       render json:{message: "Login with correct account."}
     end
