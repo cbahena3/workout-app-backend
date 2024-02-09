@@ -12,9 +12,14 @@ class ExerciseRoutinesController < ApplicationController
   end
 
   def create
+    params[:exercise]
+    exercise = Exercise.find_by(name: params[:exercise])
+    params[:routine]
+    routine = Routine.find_by(name: params[:routine])
+
     @exercise_routine = ExerciseRoutine.create(
-      exercise_id: params[:exercise_id],
-      routine_id: params[:routine_id],
+      exercise_id: exercise.id,
+      routine_id: routine.id,
       sets: params[:sets],
       reps: params[:reps]
     )
